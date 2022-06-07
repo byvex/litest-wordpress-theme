@@ -14,9 +14,15 @@ $comment_count = get_comments_number();
 	?>
 		<h3 class="comments-title">
 			<?php if ('1' === $comment_count) : ?>
-				<?php echo esc_html('1 comment'); ?>
+				<?php esc_html_e('1 comment', 'theme-prefix'); ?>
 			<?php else : ?>
-				<?php echo esc_html($comment_count); ?> comments
+				<?php
+				printf(
+					/* translators: %s: Comment count number. */
+					esc_html( _nx( '%s comment', '%s comments', $comment_count, 'Comments title', 'theme-prefix' ) ),
+					esc_html( number_format_i18n( $comment_count ) )
+				);
+				?>
 			<?php endif; ?>
 		</h3><!-- .comments-title -->
 
@@ -37,7 +43,7 @@ $comment_count = get_comments_number();
 
 		if (!comments_open()) : ?>
 			<div class="alert alert-danger">
-				<p class="no-comments fw-bold">Comments are closed.</p>
+				<p class="no-comments fw-bold"><?php esc_html_e('Comments are closed.', 'theme-prefix'); ?></p>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>

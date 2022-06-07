@@ -47,31 +47,22 @@ add_action('after_setup_theme', function () {
     add_theme_support('title-tag');
 
     register_nav_menus(array(
-        'primary' => __('Primary', 'litest'),
+        'primary' => __('Primary', 'theme-prefix'),
     ));
 });
 
 
 add_action('widgets_init', function () {
     register_sidebar(array(
-        'name' => __('Footer Widgets', 'litest'),
+        'name' => __('Footer Widgets', 'theme-prefix'),
         'id' => 'sidebar-1',
-        'description' => __('Add widgets here', 'litest'),
+        'description' => __('Add widgets here', 'theme-prefix'),
         'before_widget' => '<section id="%1$s" class="widget %2$s col-sm-6 col-md-4 col-lg-3">',
         'after_widget' => '</section>',
         'before_title' => '<h3 class="h4 widget-title mb-0 pb-2">',
         'after_title' => '</h3>',
     ));
 });
-
-
-if (!function_exists('wp_body_open')) {
-    // phpcs:ignore WPThemeReview.CoreFunctionality.PrefixAllGlobals.NonPrefixedFunctionFound
-    function wp_body_open() {
-        // phpcs:ignore WPThemeReview.CoreFunctionality.PrefixAllGlobals.NonPrefixedHooknameFound
-        do_action('wp_body_open');
-    }
-}
 
 
 add_action('wp_head', function () {
@@ -81,40 +72,40 @@ add_action('wp_head', function () {
 });
 
 
-add_action('admin_init', function(){
-    add_editor_style('editor-style.css');
-});
-
-
-add_filter('admin_footer_text', function(){
-    $my_theme = wp_get_theme(); ?>
-    <span id="footer-thankyou"><?php esc_html_e('Crafted by', 'litest'); ?> <a href="<?php echo esc_url($my_theme->get('AuthorURI')); ?>" title="<?php echo esc_attr($my_theme->get('Description')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($my_theme->get('Author')); ?></a></span>
-<?php });
-
-
 add_action('wp_enqueue_scripts', function () {
+    $tpl_dir = get_template_directory();
+    $tpl_dir_uri = get_template_directory_uri();
 
-    // Bootstrap CSS
+    // Bootstrap Style
     $path = '/css/bootstrap.min.css';
-    if (file_exists(get_template_directory() . '' . $path)) {
-        wp_enqueue_style('bootstrap', get_template_directory_uri() . '' . $path, array() , filemtime(get_template_directory() . '' . $path));
+    if (file_exists($tpl_dir . '' . $path)) {
+        wp_enqueue_style('theme-prefix-bootstrap-style', $tpl_dir_uri . '' . $path, array() , filemtime($tpl_dir . '' . $path));
     }
 
-    // Style CSS
-    $path = '/style.css';
-    if (file_exists(get_template_directory() . '' . $path)) {
-        wp_enqueue_style('style', get_template_directory_uri() . '' . $path, array(
-            'bootstrap'
-        ) , filemtime(get_template_directory() . '' . $path));
-    }
-
-    // Bootstrap Bundle with PopperJS
+    // Bootstrap Script with PopperJS
     $path = '/js/bootstrap.bundle.min.js';
-    if (file_exists(get_template_directory() . '' . $path)) {
-        wp_enqueue_script('bootstrap-bundle', get_template_directory_uri() . '' . $path, array(
+    if (file_exists($tpl_dir . '' . $path)) {
+        wp_enqueue_script('theme-prefix-bootstrap-script', $tpl_dir_uri . '' . $path, array(
             'jquery'
-        ) , filemtime(get_template_directory() . '' . $path) , true);
+        ) , filemtime($tpl_dir . '' . $path) , true);
     }
+
+    // Theme Style
+    $path = '/style.css';
+    if (file_exists($tpl_dir . '' . $path)) {
+        wp_enqueue_style('theme-prefix-style', $tpl_dir_uri . '' . $path, array(
+            'theme-prefix-bootstrap-style'
+        ) , filemtime($tpl_dir . '' . $path));
+    }
+
+    // Theme Script
+    $path = '/main.js';
+    if (file_exists($tpl_dir . '' . $path)) {
+        wp_enqueue_script('theme-script', $tpl_dir_uri . '' . $path, array(
+            'jquery', 'theme-prefix-bootstrap-script'
+        ) , filemtime($tpl_dir . '' . $path) , true);
+    }
+
 
 });
 

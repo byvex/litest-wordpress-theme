@@ -1,18 +1,19 @@
 /*
-Theme Name: Litest
+Theme Name: Theme Prefix
 Author: Byvex Team
 Author URI: https://www.byvex.com/
 Description: This is very lightweight theme
-Version: 0.0.3
-Tested up to: 5.9
-Requires PHP: 5.6
+Version: 1.0.0
+Requires at least: 5.2
+Tested up to: 6.0
+Requires PHP: 7.2
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: litest
+Text Domain: theme_prefix
 Tags: custom-background, custom-logo, custom-menu, featured-images
 
-Litest WordPress Theme, (C) 2021 Byvex Technologies
-Litest is distributed under the terms of the GNU GPL.
+Theme Prefix WordPress Theme, (C) 2022 Byvex Technologies
+Theme Prefix is distributed under the terms of the GNU GPL.
 */
 
 .alignnone {
@@ -130,3 +131,14 @@ a img.aligncenter {
 .bypostauthor {}
 
 /* Use .si class to align SVG Icons */
+.si {
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    vertical-align: middle;
+    position: relative;
+    top: -0.0625em;
+    text-align: center;
+    stroke-width: 0;
+    overflow: visible;
+}
